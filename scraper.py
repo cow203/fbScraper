@@ -8,9 +8,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as bs
 
+from bs_utils import get_posts
+
 with open('facebook_credentials.txt') as file:
-    EMAIL = file.readline().split('"')[1]
-    PASSWORD = file.readline().split('"')[1]
+    EMAIL = file.readline()
+    PASSWORD = file.readline()
 
 
 def _extract_post_text(item):
@@ -389,24 +391,32 @@ def extract(page, numOfPost, infinite_scroll=False, scrape_comment=False):
 
 
 def parseSoup(bs_data):
+    print('here')
     data = [tag.text for tag in
             bs_data.find_all(lambda tag: tag.name == 'div' and 'text-align:' in tag.get('style', ''))]
+    # print(data)
 
+    posts = get_posts(bs_data)
+    print('\n\n-----------------------\n\n'.join(posts))
     # Convert the extracted information to a JSON string
     json_data = json.dumps(data)
 
     # Now you can convert json_data to python dict
     python_dict = json.loads(json_data)
-    print('\n------------------------------------------\n'.join(python_dict))
+    # print('\n------------------------------------------\n'.join(python_dict))
 
 
 def main():
-    # with open("raw.html", "r", encoding="utf8") as f:
-    #     html = f.read()
-    #
-    # # Parse the HTML using BeautifulSoup
-    # soup = bs(html, "html.parser")
-    # parseSoup(soup)
+    with open("raw.html", "r", encoding="utf8") as f:
+        html = f.read()
+    
+    # Parse the HTML using BeautifulSoup
+    print('souping')
+    soup = bs(html, "html.parser")
+    print('parsing')
+    parseSoup(soup)
+    return 
+
 
     parser = argparse.ArgumentParser(description="Facebook Page Scraper")
     required_parser = parser.add_argument_group("required arguments")
