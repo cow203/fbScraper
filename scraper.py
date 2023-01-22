@@ -406,23 +406,6 @@ def parseSoup(bs_data):
     # print('\n------------------------------------------\n'.join(python_dict))
 
 
-# with open("raw.html", "r", encoding="utf8") as f:
-#     html = f.read()
-
-# # Parse the HTML using BeautifulSoup
-# print('souping')
-# bs_data = bs(html, "html.parser")
-# print('parsing')
-
-# data = [tag.text for tag in
-#         bs_data.find_all(lambda tag: tag.name == 'div' and 'text-align:' in tag.get('style', ''))]
-
-# data = [
-#     tag for tag in 
-#     bs_data.find_all('span', recursive=False)    
-# ]
-
-
 def main():
     with open("raw.html", "r", encoding="utf8") as f:
         html = f.read()
